@@ -1,0 +1,38 @@
+body {
+  display: grid;
+  grid-template-areas:
+    "header"
+    "main";
+  grid-template-columns: auto;
+  grid-template-rows: auto;
+  padding-top: 15vh;
+  padding-left: 25vw;
+  padding-right: 25vw;
+  padding: 5vw;
+  background-color: blue;
+
+}
+
+.o-header {
+
+  grid-area: header;
+  align-items: center;
+  justify-content: center;
+  padding-left: 25%;
+}
+
+.o-main {
+
+  grid-area: main;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+
+.o-header,
+.o-main {
+  background: white;
+  color: black;
+}
