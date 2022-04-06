@@ -92,6 +92,7 @@ def editar():
     if form.validate_on_submit():
         dados_editados = {}
         dados_editados["nome"] = form.nome.data
+        session["nome"] = form.nome.data
         dados_editados["pais"] = form.pais.data
         dados_editados["estado"] = form.estado.data
         dados_editados["municipio"] = form.municipio.data
