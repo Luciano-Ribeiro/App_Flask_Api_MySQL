@@ -31,7 +31,7 @@ def form_login():
     login_usuario["email"] = request.form['email']
     login_usuario["password"] = request.form['password']
     print(f'esse é o login {login_usuario}')
-    login = {'email':login_usuario['email'], "tipo":"login"}
+    login = {'email': login_usuario['email'], "tipo": "login"}
     post_api(login, link='http://127.0.0.1:5000/login')
     time.sleep(1)
     return redirect('/login')
@@ -43,7 +43,8 @@ def get_usuario_api():
     print(f' Esses foram os dados recebidos no /api {dados_api}')
     print(decode_jwt(dados_api))
     dados_api = decode_jwt(dados_api)
-    autentica_senha = check_password_hash(dados_api['senha'], login_usuario['password'])
+    autentica_senha = check_password_hash(
+        dados_api['senha'], login_usuario['password'])
     if dados_api['nome'] == "None":
         return render_template("home.html")
     if login_usuario['email'] == dados_api['email'] and autentica_senha:
@@ -80,13 +81,13 @@ def form_cadastro():
     print(dados_cadastro)
     post_api(dados_cadastro)
 
-    return redirect("/", cadastrado="O usuario foi cadastrado")
+    return render_template("home.html", cadastrado="O usuario foi cadastrado")
 
 
 @app.route("/editar", methods=['POST', 'GET'])
 def editar():
     form = EditarForm()
-    if session['nome']== "None":
+    if session['nome'] == "None":
         return redirect("/")
     if form.validate_on_submit():
         dados_editados = {}
@@ -105,10 +106,7 @@ def editar():
         print(dados_editados)
         post_api(dados_editados, link="http://127.0.0.1:5000/editar")
 
-
-
     return render_template("editarv2.html", form=form, session=session)
-
 
 
 @app.route('/login', methods=['GET', 'POST'])
