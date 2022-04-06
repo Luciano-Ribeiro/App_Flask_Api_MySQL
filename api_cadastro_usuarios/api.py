@@ -23,10 +23,10 @@ class Usuario(db.Model):
     cep = db.Column(db.String(100))
     rua = db.Column(db.String(100))
     numero = db.Column(db.String(10))
-    complemento = db.Column(db.String(50))
-    cpf = db.Column(db.String(25))
-    pis = db.Column(db.String(25))
-    senha = db.Column(db.String(200))
+    complemento = db.Column(db.String())
+    cpf = db.Column(db.Integer)
+    pis = db.Column(db.Integer)
+    senha = db.Column(db.String())
 
 # db.create_all() para criar a tabela no terminal
 
@@ -55,8 +55,6 @@ def login():
         dados_dict['senha'] = usuarios.senha
 
         post_cadastro_web(dados_dict)
-        if dados["tipo"] == "consulta":
-            post_cadastro_web(dados_dict, link='http://127.0.0.1:3000/editar')
     else:
         usuarios_dict = {"nome":"None"}
         post_cadastro_web(usuarios_dict)
@@ -79,18 +77,26 @@ def recebe_cadastro():
     print('dados salvos')
     return f'dados salvos'
 
-@app.route('/editar', methods=['POST',"GET"])
+@app.route('/editar', methods=['POST'])
 def editar():
     dados = request.get_json(force=True)
     print(f'dados para editar {dados}')
     print(decode_jwt(dados))
     dados = decode_jwt(dados)
     usuarios = Usuario.query.filter_by(email=dados['email']).first()
-    add_dados_editados = Usuario(nome=dados['nome'], email=usuarios.email, pais=dados['pais'],estado=dados['estado'],
-                                 municipio=dados['municipio'],cep=dados['cep'], rua=dados['rua'], numero=dados['numero'],
-                                 complemento=dados['complemento'],cpf=dados['cpf'], pis=dados['pis'], senha=usuarios.senha)
-    db.session.add(add_dados_editados)
+    usuarios.nome = dados['nome']
+    usuarios.pais = dados['pais']
+    usuarios.estado = dados['estado']
+    usuarios.municipio = dados['municipio']
+    usuarios.rua = dados['rua']
+    usuarios.numero = dados['numero']
+    usuarios.complemento = dados['complemento']
+    usuarios.cep = dados['cep']
+    usuarios.cpf = dados['cpf']
+    usuarios.pis = dados['pis']
+
     db.session.commit()
+
     print('dados editados')
     return f'dados editados'
 
@@ -102,9 +108,8 @@ def home():
 def post_cadastro_web(dados, link='http://127.0.0.1:3000/api'):
 
     dados = encode_jwt(dados)
-    print(f'os dados foram mudados {dados}')
     requisicao = requests.post(link, json=dados)
-    print(f'Essa é a requisição para a web{requisicao}')
+    return "ok"
 
 @app.route('/excluir', methods=['POST'])
 def excluir_usuario():

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='cadastro.css')}}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</head>
+
+<body>
+
+
+
+    <header class="o-header">
+        <h1>Editar</h1>
+    </header>
+    <main class="o-main">
+
+        <form class="row g-3" method="post">
+            {{ form.csrf_token }}
+            <div class="col-md-4">
+                <label  class="form-label">Nome</label>
+                <br>
+                {{form.nome(class="form-control")}}
+            </div>
+
+            <h4>Endereço</h4>
+
+
+            <div class="col-md-6">
+                <label class="form-label">País</label>
+                <br>
+                {{form.pais(class="form-control")}}
+            </div>
+
+            <div class="col-md-6">
+                <label class="form-label">Estado</label>
+                <br>
+                {{form.estado(class="form-control")}}
+            </div>
+
+
+            <div class="col-md-3">
+                <label  class="form-label">Município</label>
+                <br>
+                {{form.municipio(class="form-control")}}
+            </div>
+            <div class="col-md-3">
+                <label  class="form-label">Cep</label>
+                <br>
+                {{form.cep(class="form-control")}}
+            </div>
+            <div class="col-md-3">
+                <label  class="form-label">Rua</label>
+                <br>
+                {{form.rua(class="form-control", value="0123456")}}
+            </div>
+            <div class="col-md-3">
+                <label  class="form-label">Numero</label>
+                 <br>
+                    {{form.numero(class="form-control")}}
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Cpf</label>
+                <div class="input-group">
+                     <br>
+                    {{form.cpf(class="form-control")}}
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label  class="form-label">Pis</label>
+                <div class="input-group">
+                     <br>
+                    {{form.pis(class="form-control")}}
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <label class="form-label">Complemento</label>
+                <div class="input-group">
+                     <br>
+                {{form.complemento(class="form-control")}}
+                </div>
+            </div>
+
+            <div class="col-md-4">
+
+                <div  class="col-12">
+                    <button class="btn btn-primary" type="submit">Atualizar</button>
+                </div>
+            </div>
+        </form>
+        <br>
+        <h4>Excluir seu usuario</h4>
+        <a class="btn btn-primary btn-lg" href="/excluir" role="button" id="btncadastro2">Excluir</a>
+
+    </main>
+
+
+</body>
+
+</html>

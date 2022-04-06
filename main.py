@@ -1,10 +1,12 @@
-from typing import Dict, Any, Union
+
 
 from flask import Flask, render_template, request, redirect, session
 import time
 from validacao import modifica_senha, check_password_hash
 from acessa_api import post_api
 from acessa_api import decode_jwt, encode_jwt
+
+from forms import EditarForm
 
 app = Flask(__name__, template_folder=('templates'))
 
@@ -13,7 +15,6 @@ app.secret_key = modifica_senha('minha senha')
 nome = ""
 list = []
 dados_cadastro = {}
-dados_editados = {}
 login_usuario = {}
 email = ''
 dados_usuario = {}
@@ -84,27 +85,30 @@ def form_cadastro():
 
 @app.route("/editar", methods=['POST', 'GET'])
 def editar():
-    return render_template("editar.html")
+    form = EditarForm()
+    if session['nome']== "None":
+        return redirect("/")
+    if form.validate_on_submit():
+        dados_editados = {}
+        dados_editados["nome"] = form.nome.data
+        dados_editados["pais"] = form.pais.data
+        dados_editados["estado"] = form.estado.data
+        dados_editados["municipio"] = form.municipio.data
+        dados_editados["cep"] = form.cep.data
+        dados_editados["rua"] = form.rua.data
+        dados_editados['numero'] = form.numero.data
+        dados_editados["complemento"] = form.complemento.data
+        dados_editados["cpf"] = form.cpf.data
+        dados_editados["pis"] = form.pis.data
+        dados_editados["email"] = session['email']
+        dados_editados['senha'] = session['senha']
+        print(dados_editados)
+        post_api(dados_editados, link="http://127.0.0.1:5000/editar")
 
 
-@app.route("/editar", methods=['POST'])
-def form_editar():
-    dados_editados = {}
-    dados_editados['nome'] = request.form['nome']
-    dados_editados['email'] = session['email']
-    dados_editados['pais'] = request.form['pais']
-    dados_editados['estado'] = request.form['estado']
-    dados_editados['municipio'] = request.form['municipio']
-    dados_editados['cep'] = request.form['cep']
-    dados_editados['rua'] = request.form['rua']
-    dados_editados['numero'] = request.form['numero']
-    dados_editados['complemento'] = request.form['complemento']
-    dados_editados['cpf'] = request.form['cpf']
-    dados_editados['pis'] = request.form['pis']
-    dados_editados['senha'] = session['senha']
-    print(dados_editados)
-    post_api(dados_editados, link='http://127.0.0.1:5000/editar')
-    return redirect("/login")
+
+    return render_template("editarv2.html", form=form, session=session)
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
