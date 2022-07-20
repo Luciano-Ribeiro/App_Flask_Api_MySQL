@@ -1,7 +1,7 @@
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
-cpf = "437.680.698-69"
+cpf = "111.111.111-11"
 
 
 def valida_cpf(cpf):
@@ -12,7 +12,7 @@ def valida_cpf(cpf):
     tamanho = len(cpf_tratado)
     cpf = int(cpf_tratado)
     if tamanho != 11:
-        return print("Favor escrever um cpf com válido")
+        return print("Favor escrever um cpf válido")
 
 
         
